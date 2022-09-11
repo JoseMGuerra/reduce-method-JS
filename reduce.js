@@ -126,7 +126,9 @@ let students = [
 // 4. Use a default value with the reduce method
 // 5. log out the variable biggest to see the value
 
+// Option 1: without accumulator key
 const biggest = students.reduce((acc, student) => {
+  // check if there is not accumulator key, and add them if there is none.
   if (!acc.name) {
     acc.name = '';
     acc.max = 0;
@@ -139,8 +141,26 @@ const biggest = students.reduce((acc, student) => {
 }, {});
 console.log(biggest);
 
+//Option 2: With accumulator key
 const biggest2 = students.reduce(
+  (acc, student) => {
+    if (student.results.english > acc.max) {
+      acc.max = student.results.english;
+      acc.name = student.name;
+    }
+    return acc;
+  },
+  { name: '', max: 0 }
+);
+console.log(biggest2);
+
+// Option 3: Using Ternary operator
+const biggest3 = students.reduce(
   (acc, cur) => {
+    if (!acc.name) {
+      acc.name = '';
+      acc.max = 0;
+    }
     acc =
       acc.max > cur.results.english
         ? acc
@@ -149,10 +169,10 @@ const biggest2 = students.reduce(
   },
   { name: '', max: 0 }
 );
-console.log(biggest2);
+console.log(biggest3);
 
-// Using destructuring
-const biggest3 = students.reduce(
+// Option 4: Using destructuring
+const biggest4 = students.reduce(
   ({ max, name }, { name: n, results: { english } }) => {
     if (max < english) {
       acc = { name: n, max: english };
@@ -162,4 +182,4 @@ const biggest3 = students.reduce(
   { name: '', max: 0 }
 );
 
-console.log(biggest3);
+console.log(biggest4);
